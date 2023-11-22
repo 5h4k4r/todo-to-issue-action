@@ -26,5 +26,5 @@ jobs:
       image: todo-to-issue-action/todo-to-issue
       timeout: 15
     secrets:
-      username: ${{ secrets.HARBOR_USER }}
-      password: ${{ secrets.HARBOR_TOKEN }}
+      username: ${{ secrets.HARBOR_PUBLIC_USER }}
+      password: ${{ secrets.HARBOR_PUBLIC_TOKEN }}
