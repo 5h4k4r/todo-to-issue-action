@@ -11,8 +11,10 @@ runs:
       with:
         app-id: ${{ inputs.APP_ID }}
         private-key: ${{ inputs.PRIVATE_KEY }}
-        owner: ${{ inputs.TARGET_REPO%/* }}
-        repositories: ${{ inputs.TARGET_REPO#*/ }}
+        owner: ${TARGET_REPO%/*}
+        repositories: ${TARGET_REPO#*/}
+      env:
+        TARGET_REPO: ${{ inputs.TARGET_REPO }}
 
     - name: Change todo to issue
       id: todo-to-issue
