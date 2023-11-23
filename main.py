@@ -68,7 +68,7 @@ class GitHubClient(object):
         else:
             self.token = os.getenv('INPUT_TOKEN')
 
-        self.issues_url = f'{self.repos_url}/{self.target_repo}/issues'
+        self.issues_url = f'{self.repos_url}{self.target_repo}/issues'
         self.issue_headers = {
             'Content-Type': 'application/json',
             'Authorization': f'token {self.token}'
@@ -90,14 +90,14 @@ class GitHubClient(object):
             diff_url = self.diff_url
         elif self.before != '0000000000000000000000000000000000000000':
             # There is a valid before SHA to compare with, or this is a release being created
-            diff_url = f'{self.repos_url}/{self.repo}/compare/{self.before}...{self.sha}'
+            diff_url = f'{self.repos_url}{self.repo}/compare/{self.before}...{self.sha}'
         elif len(self.commits) == 1:
             # There is only one commit
-            diff_url = f'{self.repos_url}/{self.repo}/commits/{self.sha}'
+            diff_url = f'{self.repos_url}{self.repo}/commits/{self.sha}'
         else:
             # There are several commits: compare with the oldest one
             oldest = sorted(self.commits, key=self.get_timestamp)[0]['id']
-            diff_url = f'{self.repos_url}/{self.repo}/compare/{oldest}...{self.sha}'
+            diff_url = f'{self.repos_url}{self.repo}/compare/{oldest}...{self.sha}'
 
         diff_headers = {
             'Accept': 'application/vnd.github.v3.diff',
@@ -209,11 +209,11 @@ class GitHubClient(object):
                 issue_number = existing_issue['number']
         else:
             # The titles match, so we will try and close the issue.
-            update_issue_url = f'{self.repos_url}/{self.target_repo}/issues/{issue_number}'
+            update_issue_url = f'{self.repos_url}{self.target_repo}/issues/{issue_number}'
             body = {'state': 'closed'}
             requests.patch(update_issue_url, headers=self.issue_headers, data=json.dumps(body))
 
-            issue_comment_url = f'{self.repos_url}/{self.target_repo}/issues/{issue_number}/comments'
+            issue_comment_url = f'{self.repos_url}{self.target_repo}/issues/{issue_number}/comments'
             body = {'body': f'Closed in {self.sha}'}
             update_issue_request = requests.post(issue_comment_url, headers=self.issue_headers,
                                                  data=json.dumps(body))
