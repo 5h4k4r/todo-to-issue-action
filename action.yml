@@ -11,8 +11,7 @@ runs:
       with:
         app-id: ${{ inputs.APP_ID }}
         private-key: ${{ inputs.PRIVATE_KEY }}
-        owner: ${TARGET_REPO%/*}
-        repositories: ${TARGET_REPO#*/}
+        repositories: $TARGET_REPO
       env:
         TARGET_REPO: ${{ inputs.TARGET_REPO }}
 
