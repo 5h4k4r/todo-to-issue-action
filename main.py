@@ -48,6 +48,7 @@ class GitHubClient(object):
         self.github_url = os.getenv('INPUT_GITHUB_URL')
         self.base_url = f'{self.github_url}/'
         self.repos_url = f'{self.base_url}repos/'
+        print('repo ',os.getenv('INPUT_REPO'))
         self.repo = os.getenv('INPUT_REPO')
         print('target repo ',os.getenv('INPUT_TARGET_REPO'))
         if os.getenv('INPUT_TARGET_REPO') is not None and os.getenv('INPUT_TARGET_REPO') != '':
