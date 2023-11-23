@@ -4,6 +4,17 @@ author: "Alastair Mooney"
 runs:
   using: "composite"
   steps:
+    - name: seperate envs
+      shell: bash
+      run: |
+        REPO_ONLY=${{ inputs.TARGET_REPO }}
+        REPO_ONLY=${REPO_ONLY#*/}
+        echo "REPO_ONLY=$REPO_ONLY" >> $GITHUB_ENV
+
+        OWNER_ONLY=${{ inputs.TARGET_REPO }}
+        OWNER_ONLY=${OWNER_ONLY%/*}
+        echo "OWNER_ONLY=$OWNER_ONLY" >> $GITHUB_ENV
+
     - name: Generate token
       if: ${{ inputs.TARGET_REPO != '' }}
       id: generate-token
@@ -11,7 +22,8 @@ runs:
       with:
         app-id: ${{ inputs.APP_ID }}
         private-key: ${{ inputs.PRIVATE_KEY }}
-        repositories: ${{ inputs.TARGET_REPO }}
+        repositories: ${{ env.REPO_ONLY }}
+        owner: ${{ env.OWNER_ONLY }}
 
     - name: Change todo to issue
       id: todo-to-issue
